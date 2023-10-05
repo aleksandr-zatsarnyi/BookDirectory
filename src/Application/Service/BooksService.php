@@ -8,9 +8,11 @@ use Doctrine\ORM\NonUniqueResultException;
 
 class BooksService {
     private BooksRepository $booksRepository;
+    private AuthorsService $authorsService;
 
-    public function __construct(BooksRepository $booksRepository) {
+    public function __construct(BooksRepository $booksRepository, AuthorsService $authorsService) {
         $this->booksRepository = $booksRepository;
+        $this->authorsService = $authorsService;
     }
 
     public function findAllBooks(): array {
@@ -24,7 +26,10 @@ class BooksService {
 
     public function create(array $parameters): void {
         $book = new Books($parameters['title'], $parameters['description'], $parameters['imagePath'], $parameters['publicationDate']);
-
+        $author = $this->authorsService->searchAuthors($parameters['authors']);
+        if (!$author) {
+            $author = $this->authorsService->create();
+        }
         $this->booksRepository->save($book);
     }
 

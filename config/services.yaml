@@ -21,7 +21,7 @@ services:
             - '../src/Kernel.php'
 
     App\Application\Service\:
-        resource: '../src/Application/Service/BooksService.php'
+        resource: '../src/Application/Service/'
 
     App\Application\Controller\:
         resource: '../src/Application/Controller/'

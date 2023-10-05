@@ -22,4 +22,8 @@ class AuthorsService {
     public function getAuthorById($authorId) {
         return $this->authorsRepository->find($authorId);
     }
+
+    public function create(array $parameters): void {
+
+    }
 }
