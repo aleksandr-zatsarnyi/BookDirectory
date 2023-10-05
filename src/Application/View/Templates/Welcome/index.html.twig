@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Your App</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007BFF; /* Цвет фона кнопки */
+            color: #fff; /* Цвет текста */
+            text-decoration: none; /* Убираем подчеркивание */
+            border: none;
+            border-radius: 5px;
+            margin: 10px; /* Отступы между кнопками */
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Your App</h1>
+
+    <a href="{{ path('index') }}" class="btn">Authors</a>
+    <a href="{{ path('get_all_books') }}" class="btn">Books</a>
+</body>
+</html>

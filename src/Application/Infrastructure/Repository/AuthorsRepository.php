@@ -21,7 +21,7 @@ class AuthorsRepository extends ServiceEntityRepository {
 
     public function searchAuthors(string $searchTerm): array {
         return $this->createQueryBuilder('a')
-            ->where('a.firstName LIKE :searchTerm OR a.lastName LIKE :searchTerm')
+            ->where('CONCAT(a.firstName, \' \', a.lastName) LIKE :searchTerm')
             ->setParameter('searchTerm', '%' . $searchTerm . '%')
             ->getQuery()
             ->getResult();

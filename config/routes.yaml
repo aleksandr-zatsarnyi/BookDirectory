@@ -1,9 +1,9 @@
-controllers:
+HealthControllers:
     resource:
         path: ../src/Shared/Controller/
         namespace: App\Shared\Controller
     type: attribute
-Books:
+controllers:
     resource:
         path: ../src/Application/Controller/
         namespace: App\Application\Controller
