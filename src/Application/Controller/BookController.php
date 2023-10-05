@@ -2,13 +2,12 @@
 
 namespace App\Application\Controller;
 
-use App\Application\Domain\Entity\Books;
 use App\Application\Service\BooksService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/api/books')]
 class BookController {
 
     private BooksService $bookService;
@@ -17,7 +16,7 @@ class BookController {
         $this->bookService = $bookService;
     }
 
-    #[Route('/api/books', name: 'get_all_books', methods: ['GET'])]
+    #[Route('/', name: 'get_all_books', methods: ['GET'])]
     public function getAll(): JsonResponse {
         $books = $this->bookService->findAllBooks();
         $bookData = [];
@@ -34,7 +33,7 @@ class BookController {
     }
 
 
-    #[Route('/api/books/{title}', name: 'find_books_by_title', methods: ['GET'])]
+    #[Route('/{title}', name: 'find_books_by_title', methods: ['GET'])]
     public function findBooksByTitle(string $title): JsonResponse {
         $books = $this->bookService->findBookByTitle($title);
         if ($books) {
@@ -54,7 +53,7 @@ class BookController {
         }
     }
 
-    #[Route('/api/books', name: 'create_book', methods: ['POST'])]
+    #[Route('/', name: 'create_book', methods: ['POST'])]
     public function create(Request $request): JsonResponse {
         $data = json_decode($request->getContent(), true);
 
@@ -63,7 +62,7 @@ class BookController {
         return new JsonResponse(['message' => 'Book created'], 201);
     }
 
-    #[Route('/api/books/{id}', name: 'delete_book', methods: ['DELETE'])]
+    #[Route('/{id}', name: 'delete_book', methods: ['DELETE'])]
     public function delete(string $id): JsonResponse {
         $response = $this->bookService->delete($id);
         return new JsonResponse(['message' => $response], 201);
