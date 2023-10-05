@@ -2,6 +2,7 @@
 
 namespace App\Application\Service;
 
+use App\Application\Domain\Entity\Authors;
 use App\Application\Infrastructure\Repository\AuthorsRepository;
 
 class AuthorsService {
@@ -23,7 +24,10 @@ class AuthorsService {
         return $this->authorsRepository->find($authorId);
     }
 
-    public function create(array $parameters): void {
+    public function create(array $parameters): Authors {
+        $author = new Authors($parameters['firstName'], $parameters['secondName'], $parameters['lastName']);
+        $this->authorsRepository->save($author);
 
+        return $author;
     }
 }

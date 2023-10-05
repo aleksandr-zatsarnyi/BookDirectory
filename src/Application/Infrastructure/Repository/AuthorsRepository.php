@@ -19,7 +19,7 @@ class AuthorsRepository extends ServiceEntityRepository {
             ->getResult();
     }
 
-    public function searchAuthors($searchTerm) {
+    public function searchAuthors(string $searchTerm): array {
         return $this->createQueryBuilder('a')
             ->where('a.firstName LIKE :searchTerm OR a.lastName LIKE :searchTerm')
             ->setParameter('searchTerm', '%' . $searchTerm . '%')
@@ -33,5 +33,15 @@ class AuthorsRepository extends ServiceEntityRepository {
             ->setParameter('authorIds', $authorIds)
             ->getQuery()
             ->getResult();
+    }
+
+    public function save(Authors $author): void {
+        $this->_em->persist($author);
+        $this->_em->flush();
+    }
+
+    public function delete(Authors $author): void {
+        $this->_em->remove($author);
+        $this->_em->flush();
     }
 }

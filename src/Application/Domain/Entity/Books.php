@@ -3,6 +3,7 @@
 namespace App\Application\Domain\Entity;
 
 use App\Shared\Service\UlidService;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 /**
@@ -18,10 +19,6 @@ class Books {
 
     private ?string $imagePath;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Author", inversedBy="books")
-     * @ORM\JoinTable(name="books_authors")
-     */
     private Collection $authors;
 
     private string $publicationDate;
@@ -30,7 +27,6 @@ class Books {
      * @param string $title
      * @param string $description
      * @param string $imagePath
-     * @param Collection $authors
      * @param string $publicationDate
      */
     public function __construct(string $title, string $description, string $imagePath, string $publicationDate) {
@@ -38,8 +34,8 @@ class Books {
         $this->title = $title;
         $this->description = $description;
         $this->imagePath = $imagePath;
-        $this->authors = $authors;
         $this->publicationDate = $publicationDate;
+        $this->authors = new ArrayCollection();
     }
 
     public function getId(): string {

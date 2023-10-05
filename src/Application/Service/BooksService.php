@@ -2,6 +2,7 @@
 
 namespace App\Application\Service;
 
+use App\Application\Domain\Entity\Authors;
 use App\Application\Domain\Entity\Books;
 use App\Application\Infrastructure\Repository\BooksRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -26,10 +27,8 @@ class BooksService {
 
     public function create(array $parameters): void {
         $book = new Books($parameters['title'], $parameters['description'], $parameters['imagePath'], $parameters['publicationDate']);
-        $author = $this->authorsService->searchAuthors($parameters['authors']);
-        if (!$author) {
-            $author = $this->authorsService->create();
-        }
+        $author = $this->getAuthor($parameters['authors']);
+        $book->addAuthor($author);
         $this->booksRepository->save($book);
     }
 
@@ -45,5 +44,15 @@ class BooksService {
             return "Not unique $id";
         }
         return "Book with $id is deleted";
+    }
+
+    private function getAuthor(array $authorData): Authors {
+        $author = $this->authorsService->searchAuthors($authorData['lastName']);
+        if (!$author) {
+            $author = $this->authorsService->create($authorData);
+        } else {
+            $author = $author[0];
+        }
+        return $author;
     }
 }
