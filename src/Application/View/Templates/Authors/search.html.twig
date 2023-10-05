@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Search result of Authors</h1>
+    <ul>
+        {% for author in authors %}
+            <li>{{ author.firstName }} {{ author.lastName }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

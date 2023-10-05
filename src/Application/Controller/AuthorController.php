@@ -4,9 +4,11 @@ namespace App\Application\Controller;
 
 use App\Application\Service\AuthorsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/api/authors')]
 class AuthorController extends AbstractController {
 
     private AuthorsService $authorService;
@@ -15,7 +17,7 @@ class AuthorController extends AbstractController {
         $this->authorService = $authorService;
     }
 
-    #[Route('/api/author', name: 'get_all_author', methods: ['GET'])]
+    #[Route('/', name: 'get_all_author', methods: ['GET'])]
     public function getAll(): Response {
         $authors = $this->authorService->getAllAuthors();
 
@@ -24,11 +26,12 @@ class AuthorController extends AbstractController {
         ]);
     }
 
-    public function search(Request $request) {
+    #[Route('/search', name: 'find_author', methods: ['GET'])]
+    public function search(Request $request): Response {
         $searchTerm = $request->query->get('searchTerm');
         $authors = $this->authorService->searchAuthors($searchTerm);
 
-        return $this->render('author/search.html.twig', [
+        return $this->render('Authors/search.html.twig', [
             'authors' => $authors,
         ]);
     }
