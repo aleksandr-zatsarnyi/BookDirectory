@@ -1,14 +1,38 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Search result of Authors</h1>
+    <style>
+        body {
+            background-color: #c0c0c0;
+        }
+
+    </style>
+    <a href="{{ path('authors_index') }}" class="btn btn-primary" style="position: absolute; top: 10px; left: 10px;">Return to Index</a>
+    <h1 style="text-align: center;">Search result of Authors</h1>
     {% if authors is empty %}
         <p>Nothing found</p>
     {% else %}
-        <ul>
-            {% for author in authors %}
-                <li>{{ author.firstName }} {{author.secondName}} {{ author.lastName }}</li>
-            {% endfor %}
-        </ul>
+        <table style="margin: 0 auto; border-collapse: collapse; width: 50%;">
+            <thead>
+                <tr style="background-color: #007BFF; color: #fff;">
+                    <th style="border: 1px solid #000; padding: 2px;">#</th>
+                    <th style="border: 1px solid #000; padding: 8px;">First Name</th>
+                    <th style="border: 1px solid #000; padding: 8px;">Second Name</th>
+                    <th style="border: 1px solid #000; padding: 8px;">Last Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set rowNumber = 1 %}
+                {% for author in authors %}
+                    <tr style="background-color: #f5f5f5;">
+                        <td style="border: 1px solid #000; padding: 2px;">{{ rowNumber }}</td>
+                        <td style="border: 1px solid #000; padding: 8px;">{{ author.firstName }}</td>
+                        <td style="border: 1px solid #000; padding: 8px;">{{ author.secondName }}</td>
+                        <td style="border: 1px solid #000; padding: 8px;">{{ author.lastName }}</td>
+                    </tr>
+                    {% set rowNumber = rowNumber + 1 %}
+                {% endfor %}
+            </tbody>
+        </table>
     {% endif %}
 {% endblock %}

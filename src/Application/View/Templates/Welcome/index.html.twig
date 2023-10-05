@@ -10,6 +10,7 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
+            background-color: #c0c0c0;
         }
         .btn {
             display: inline-block;
@@ -26,7 +27,7 @@
 <body>
     <h1>Welcome to Your App</h1>
 
-    <a href="{{ path('index') }}" class="btn">Authors</a>
+    <a href="{{ path('authors_index') }}" class="btn">Authors</a>
     <a href="{{ path('get_all_books') }}" class="btn">Books</a>
 </body>
 </html>

@@ -16,6 +16,11 @@ class BookController {
         $this->bookService = $bookService;
     }
 
+    #[Route('/', name: 'books_index', methods: ['GET'])]
+    public function index() {
+
+    }
+
     #[Route('/', name: 'get_all_books', methods: ['GET'])]
     public function getAll(): JsonResponse {
         $books = $this->bookService->findAllBooks();

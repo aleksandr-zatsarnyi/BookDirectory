@@ -18,7 +18,7 @@ class AuthorController extends AbstractController {
         $this->authorService = $authorService;
     }
 
-    #[Route('/', name: 'index', methods: ['GET'])]
+    #[Route('/', name: 'authors_index', methods: ['GET'])]
     public function index(): Response {
 
         return $this->render('Authors/index.html.twig');
