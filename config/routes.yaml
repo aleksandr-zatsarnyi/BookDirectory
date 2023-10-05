@@ -3,3 +3,8 @@ controllers:
         path: ../src/Shared/Controller/
         namespace: App\Shared\Controller
     type: attribute
+Books:
+    resource:
+        path: ../src/Application/Controller/
+        namespace: App\Application\Controller
+    type: attribute

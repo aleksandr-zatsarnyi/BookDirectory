@@ -3,7 +3,12 @@
 namespace App\Application\Domain\Entity;
 
 use App\Shared\Service\UlidService;
+use Doctrine\Common\Collections\Collection;
 
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="books")
+ */
 class Books {
     private string $id;
 
@@ -13,7 +18,11 @@ class Books {
 
     private ?string $imagePath;
 
-    private array $authors;
+    /**
+     * @ORM\ManyToMany(targetEntity="Author", inversedBy="books")
+     * @ORM\JoinTable(name="books_authors")
+     */
+    private Collection $authors;
 
     private string $publicationDate;
 
@@ -21,10 +30,10 @@ class Books {
      * @param string $title
      * @param string $description
      * @param string $imagePath
-     * @param array $authors
+     * @param Collection $authors
      * @param string $publicationDate
      */
-    public function __construct(string $title, string $description, string $imagePath, array $authors, string $publicationDate) {
+    public function __construct(string $title, string $description, string $imagePath, string $publicationDate) {
         $this->id = UlidService::generate();
         $this->title = $title;
         $this->description = $description;
@@ -49,11 +58,18 @@ class Books {
         return $this->imagePath;
     }
 
-    public function getAuthors(): array {
+    public function getAuthors(): Collection {
         return $this->authors;
     }
 
     public function getPublicationDate(): string {
         return $this->publicationDate;
+    }
+
+    public function addAuthor(Authors $author): void {
+        if (!$this->authors->contains($author)) {
+            $this->authors[] = $author;
+            $author->addBook($this);
+        }
     }
 }

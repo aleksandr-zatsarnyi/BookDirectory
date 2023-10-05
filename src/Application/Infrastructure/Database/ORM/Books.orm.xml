@@ -11,7 +11,7 @@
         <field name="title" type="string" length="255" />
         <field name="description" type="text" nullable="true" />
         <field name="imagePath" type="string" length="255" nullable="true" />
-        <field name="publicationDate" type="date" />
+        <field name="publicationDate" type="string" length="255"/>
 
         <many-to-many field="authors" target-entity="App\Application\Domain\Entity\Authors">
             <join-table name="book_author">
