@@ -33,9 +33,9 @@ class BookController {
     }
 
 
-    #[Route('/{title}', name: 'find_books_by_title', methods: ['GET'])]
-    public function findBooksByTitle(string $title): JsonResponse {
-        $books = $this->bookService->findBookByTitle($title);
+    #[Route('/{term}', name: 'search_book', methods: ['GET'])]
+    public function findBooksByTitle(string $term): JsonResponse {
+        $books = $this->bookService->findAllFiltered($term);
         if ($books) {
             $bookData = [];
             foreach ($books as $book) {

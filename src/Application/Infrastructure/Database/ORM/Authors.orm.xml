@@ -11,6 +11,10 @@
         <field name="firstName" type="string"/>
         <field name="secondName" type="string" nullable="true"/>
         <field name="lastName" type="string"/>
+
+        <lifecycle-callbacks>
+            <lifecycle-callback type="postLoad" method="postLoad" />
+        </lifecycle-callbacks>
     </entity>
 
 </doctrine-mapping>

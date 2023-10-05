@@ -5,6 +5,7 @@ namespace App\Application\Service;
 use App\Application\Domain\Entity\Authors;
 use App\Application\Domain\Entity\Books;
 use App\Application\Infrastructure\Repository\BooksRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\NonUniqueResultException;
 
 class BooksService {
@@ -54,5 +55,9 @@ class BooksService {
             $author = $author[0];
         }
         return $author;
+    }
+
+    public function findAllFiltered(string $term) {
+        return $this->booksRepository->findAllFiltered($term);
     }
 }

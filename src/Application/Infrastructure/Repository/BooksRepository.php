@@ -42,6 +42,20 @@ class BooksRepository extends ServiceEntityRepository {
         return new ArrayCollection($results);
     }
 
+    public function findAllFiltered(string $term): ArrayCollection {
+        $qb = $this->createQueryBuilder('b')
+            ->orderBy('b.title', 'ASC');
+
+        $qb->leftJoin('b.authors', 'a')
+            ->where('b.title LIKE :term OR a.lastName LIKE :term')
+            ->setParameter('term', '%' . $term . '%');
+
+
+        $results = $qb->getQuery()->getResult();
+
+        return new ArrayCollection($results);
+    }
+
     public function save(Books $book): void {
         $this->_em->persist($book);
         $this->_em->flush();

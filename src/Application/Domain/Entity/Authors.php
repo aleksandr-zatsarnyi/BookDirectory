@@ -48,4 +48,8 @@ class Authors {
             $book->addAuthor($this);
         }
     }
+
+    public function postLoad(): void {
+        $this->books = new ArrayCollection();
+    }
 }
