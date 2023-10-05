@@ -1,0 +1,11 @@
+<div class="modal" id="addBookModal">
+    <div class="modal-content">
+        <h2>Add Book</h2>
+        <form action="{{ path('add_book') }}" method="post">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit">Add Book</button>
+            {{ form_end(form) }}
+        </form>
+    </div>
+</div>
