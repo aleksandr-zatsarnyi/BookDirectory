@@ -27,13 +27,13 @@ document.addEventListener('DOMContentLoaded', function() {
         })
             .then(response => {
                 if (response.ok) {
-                    console.log('Author created successfully.');
+                    showModal('Author created successfully.');
                 } else {
-                    console.error('Произошла ошибка при создании автора');
+                    showModal('An error occurred while creating the author.');
                 }
             })
             .catch(error => {
-                console.error('Произошла ошибка при отправке запроса:', error);
+                showModal('An error occurred while creating the author.');
             });
     });
 });

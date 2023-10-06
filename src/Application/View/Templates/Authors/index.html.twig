@@ -21,7 +21,36 @@
             border-radius: 5px;
             margin: 10px;
         }
-        #search-button {
+        #button {
+            cursor: pointer;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            position: absolute;
+            background-color: #fff;
+            margin: auto;
+            padding: 20px;
+            width: 50%;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+
+        .close {
+            position: absolute;
+            right: 10px;
+            top: 10px;
             cursor: pointer;
         }
     </style>
@@ -30,6 +59,13 @@
     <a href="{{ path('welcome_index') }}" class="btn btn-primary" style="position: absolute; top: 10px; left: 10px;">Return to Index</a>
     <h1>Authors page</h1>
 
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-modal">&times;</span>
+            <p id="modal-message">It's done</p>
+        </div>
+    </div>
+
     <a href="{{ path('get_all_author') }}" class="btn">Get All Authors</a>
 
     <a href="#" class="btn" id="open-create-form">Create Author</a>
@@ -37,15 +73,16 @@
         <input type="text" id="firstName" name="firstName" placeholder="First Name">
         <input type="text" id="secondName" name="secondName" placeholder="Second Name">
         <input type="text" id="lastName" name="lastName" placeholder="Last Name">
-        <button type="submit" class="btn btn-primary">Create Author</button>
+        <button type="submit" class="btn btn-primary" id="button">Create Author</button>
     </form>
 
     <a href="#" class="btn" id="open-search-form">Search Authors</a>
     <form id="search-author-form" style="display: none;">
         <input type="text" id="searchTerm" name="searchTerm" placeholder="Author Name">
-        <button type="submit" class="btn btn-primary" id="search-button">Search</button>
+        <button type="submit" class="btn btn-primary" id="button">Search</button>
     </form>
 
+     <script src="/scripts/modal_info_message.js"></script>
     <script src="/scripts/search_authors.js"></script>
     <script src="/scripts/create_authors.js"></script>
 </body>
