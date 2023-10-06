@@ -6,10 +6,6 @@ use App\Shared\Service\UlidService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="books")
- */
 class Books {
     private string $id;
 
@@ -67,9 +63,5 @@ class Books {
             $this->authors[] = $author;
             $author->addBook($this);
         }
-    }
-
-    public function postLoad(): void {
-        $this->authors = new ArrayCollection();
     }
 }

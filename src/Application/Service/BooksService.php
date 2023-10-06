@@ -18,15 +18,25 @@ class BooksService {
     }
 
     public function findAllBooks(int $page, int $perPage): array {
-        $books = $this->booksRepository->findAll();
+        $books = $this->booksRepository->findAll($page, $perPage);
         $bookData = [];
         foreach ($books as $book) {
+            $authorData = [];
+            foreach ($book->getAuthors() as $author) {
+                $authorData[] = [
+                    'id' => $author->getId(),
+                    'firstName' => $author->getFirstName(),
+                    'secondName' => $author->getSecondName(),
+                    'lastName' => $author->getLastName(),
+                ];
+            }
             $bookData[] = [
                 'id' => $book->getId(),
                 'title' => $book->getTitle(),
                 'description' => $book->getDescription(),
                 'imagePath' => $book->getImagePath(),
-                'publicationDate' => $book->getPublicationDate()
+                'publicationDate' => $book->getPublicationDate(),
+                'authors' => $authorData
             ];
         }
         return $bookData;

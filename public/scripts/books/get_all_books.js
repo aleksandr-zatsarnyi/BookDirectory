@@ -20,24 +20,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (Array.isArray(data) && data.length > 0) {
                     data.forEach(book => {
+                        var authorNames = book.authors.map(function(author) {
+                            return author.firstName + " " + (author.secondName ? author.secondName + " " : "") + author.lastName;
+                        });
+                        var concatenatedNames = authorNames.join(", ");
+
                         const row = document.createElement('tr');
                         const idCell = document.createElement('td');
                         const titleCell = document.createElement('td');
                         const descriptionNameCell = document.createElement('td');
                         const imagePathCell = document.createElement('td');
                         const publicationDateCell = document.createElement('td');
+                        const authorsCell = document.createElement('td');
 
                         idCell.textContent = book.id;
                         titleCell.textContent = book.title;
                         descriptionNameCell.textContent = book.description;
                         imagePathCell.textContent = book.imagePath;
                         publicationDateCell.textContent = book.publicationDate
+                        authorsCell.textContent = concatenatedNames
 
                         row.appendChild(idCell);
                         row.appendChild(titleCell);
                         row.appendChild(descriptionNameCell);
                         row.appendChild(imagePathCell);
                         row.appendChild(publicationDateCell);
+                        row.appendChild(authorsCell);
 
                         booksTableBody.appendChild(row);
                     });

@@ -12,9 +12,7 @@
         <field name="secondName" type="string" nullable="true"/>
         <field name="lastName" type="string"/>
 
-        <lifecycle-callbacks>
-            <lifecycle-callback type="postLoad" method="postLoad" />
-        </lifecycle-callbacks>
+        <many-to-many field="books" mapped-by="authors" target-entity="App\Application\Domain\Entity\Books"/>
     </entity>
 
 </doctrine-mapping>

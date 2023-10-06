@@ -11,7 +11,7 @@ class Authors {
     private string $firstName;
     private ?string $secondName;
     private string $lastName;
-    private Collection $booksss;
+    private Collection $books;
 
     /**
      * @param string $firstName

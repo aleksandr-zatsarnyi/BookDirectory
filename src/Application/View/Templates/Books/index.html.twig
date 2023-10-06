@@ -27,6 +27,7 @@
                             <th>Description</th>
                             <th>ImagePath</th>
                             <th>publication_date</th>
+                            <th>authors</th>
                         </tr>
                     </thead>
                     <tbody id="book-table-body">
@@ -43,18 +44,25 @@
     <a href="#" class="btn" id="get-all-books-button">Get All Books</a>
 
     <a href="#" class="btn" id="open-create-form">Create Book</a>
-        <div id="create-book-form" class="modal" style="display: none;">
-            <div class="modal-content">
-                <span class="close" id="close-create-form">&times;</span>
-                <h2>Create Books</h2>
-                <form>
-                    <input type="text" id="firstName" name="firstName" placeholder="First Name">
-                    <input type="text" id="secondName" name="secondName" placeholder="Second Name">
-                    <input type="text" id="lastName" name="lastName" placeholder="Last Name">
-                    <button type="submit" class="btn btn-primary" id="button">Create Books</button>
-                </form>
-            </div>
+    <div id="create-book-form" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" id="close-create-form">&times;</span>
+            <h2>Create Book</h2>
+            <form enctype="multipart/form-data" action="process-create-book.php" method="post">
+                <!-- Поле для загрузки изображения -->
+                <input type="file" id="image" name="image" accept="image/*">
+                <br>
+
+                <input type="text" id="title" name="title" placeholder="Title">
+                <textarea id="description" name="description" placeholder="Description"></textarea>
+                <input type="text" id="publicationDate" name="publicationDate" placeholder="Publication Date">
+                <br>
+
+                <button type="submit" class="btn btn-primary" id="button">Create Book</button>
+            </form>
         </div>
+    </div>
+
 
     <a href="#" class="btn" id="open-search-form">Search Books</a>
     <form id="search-book-form" style="display: none;">
@@ -85,7 +93,7 @@
 
     <script src="/scripts/modal_info_message.js"></script>
     <script src="/scripts/books/search_books.js"></script>
-    <script src="/scripts/books/create_books.js"></script>
+    <script src="/scripts/books/create_book.js"></script>
     <script src="/scripts/books/get_all_books.js"></script>
     <script src="/scripts/books/update_books.js"></script>
     <script src="/scripts/books/delete_books.js"></script>

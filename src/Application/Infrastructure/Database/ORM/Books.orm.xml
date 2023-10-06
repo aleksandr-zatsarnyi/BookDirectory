@@ -10,10 +10,10 @@
         </id>
         <field name="title" type="string" length="255" />
         <field name="description" type="text" nullable="true" />
-        <field name="imagePath" type="string" length="255" nullable="true" />
+        <field name="imagePath" type="string" length="255" nullable="true" unique="true" />
         <field name="publicationDate" type="string" length="255"/>
 
-        <many-to-many field="authors" target-entity="App\Application\Domain\Entity\Authors" mapped-by="books">
+        <many-to-many field="authors" inversed-by="books" target-entity="App\Application\Domain\Entity\Authors">
             <join-table name="book_author">
                 <join-columns>
                     <join-column name="book_id" referenced-column-name="id" />
@@ -23,9 +23,5 @@
                 </inverse-join-columns>
             </join-table>
         </many-to-many>
-
-        <lifecycle-callbacks>
-            <lifecycle-callback type="postLoad" method="postLoad" />
-        </lifecycle-callbacks>
     </entity>
 </doctrine-mapping>
