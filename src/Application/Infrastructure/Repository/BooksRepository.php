@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 class BooksRepository extends ServiceEntityRepository {
@@ -34,12 +35,17 @@ class BooksRepository extends ServiceEntityRepository {
             ->getOneOrNullResult();
     }
 
-    public function findAll(): ArrayCollection {
-        $results = $this->createQueryBuilder('b')
+    public function findAll($page = 1, $perPage = 15): Paginator {
+        $query = $this->createQueryBuilder('b')
             ->orderBy('b.title', 'ASC')
+            ->getQuery();
+
+        $paginator = new Paginator($query);
+        $paginator
             ->getQuery()
-            ->getResult();
-        return new ArrayCollection($results);
+            ->setFirstResult($perPage * ($page - 1))
+            ->setMaxResults($perPage);
+        return $paginator;
     }
 
     public function findAllFiltered(string $term): ArrayCollection {

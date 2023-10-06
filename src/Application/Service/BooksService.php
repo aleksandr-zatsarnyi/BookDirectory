@@ -17,9 +17,19 @@ class BooksService {
         $this->authorsService = $authorsService;
     }
 
-    public function findAllBooks(): array {
+    public function findAllBooks(int $page, int $perPage): array {
         $books = $this->booksRepository->findAll();
-        return $books->toArray();
+        $bookData = [];
+        foreach ($books as $book) {
+            $bookData[] = [
+                'id' => $book->getId(),
+                'title' => $book->getTitle(),
+                'description' => $book->getDescription(),
+                'imagePath' => $book->getImagePath(),
+                'publicationDate' => $book->getPublicationDate()
+            ];
+        }
+        return $bookData;
     }
 
     public function findBookByTitle($title) {

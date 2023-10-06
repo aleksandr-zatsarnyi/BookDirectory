@@ -1,10 +1,93 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Books page</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+    <a href="{{ path('welcome_index') }}" class="btn btn-primary" style="position: absolute; top: 10px; left: 10px;">Return to Index</a>
+    <h1>Books page</h1>
 
-{% block body %}
-    <h1>List of Books</h1>
-    <ul>
-        {% for book in books %}
-            <li>{{ book.title }} {{ book.description }}</li>
-        {% endfor %}
-    </ul>
-{% endblock %}
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-modal">&times;</span>
+            <p id="modal-message">It's done</p>
+        </div>
+    </div>
+
+    <div id="result-table-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="close-result-table-modal">&times;</span>
+                <h2>Books List</h2>
+                <table id="book-table">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>ImagePath</th>
+                            <th>publication_date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="book-table-body">
+                    </tbody>
+                </table>
+                <div id="pagination-container">
+                    <button id="prev-page">Previous Page</button>
+                    <span id="current-page">Page 1</span>
+                    <button id="next-page">Next Page</button>
+                </div>
+            </div>
+        </div>
+
+    <a href="#" class="btn" id="get-all-books-button">Get All Books</a>
+
+    <a href="#" class="btn" id="open-create-form">Create Book</a>
+        <div id="create-book-form" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" id="close-create-form">&times;</span>
+                <h2>Create Books</h2>
+                <form>
+                    <input type="text" id="firstName" name="firstName" placeholder="First Name">
+                    <input type="text" id="secondName" name="secondName" placeholder="Second Name">
+                    <input type="text" id="lastName" name="lastName" placeholder="Last Name">
+                    <button type="submit" class="btn btn-primary" id="button">Create Books</button>
+                </form>
+            </div>
+        </div>
+
+    <a href="#" class="btn" id="open-search-form">Search Books</a>
+    <form id="search-book-form" style="display: none;">
+        <input type="text" id="searchTerm" name="searchTerm" placeholder="Book title">
+        <button type="submit" class="btn btn-primary" id="button">Search</button>
+    </form>
+
+    <button class="btn" id="open_update-form">Update Book</button>
+    <div id="update-book-form" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close" id="close-update-form">&times;</span>
+                    <h2>Update Book</h2>
+                    <form>
+                        <input type="text" id="id" name="id" placeholder="id">
+                        <input type="text" id="firstName" name="firstName" placeholder="First Name">
+                        <input type="text" id="secondName" name="secondName" placeholder="Second Name">
+                        <input type="text" id="lastName" name="lastName" placeholder="Last Name">
+                        <button type="submit" class="btn btn-primary" id="button">Update Book</button>
+                    </form>
+                </div>
+    </div>
+
+    <a href="#" class="btn" id="open-delete-form">Delete Book</a>
+    <form id="delete-book-form" style="display: none;">
+        <input type="text" id="id" name="id" placeholder="book Id">
+        <button type="submit" class="btn btn-primary" id="button">Delete</button>
+    </form>
+
+    <script src="/scripts/modal_info_message.js"></script>
+    <script src="/scripts/books/search_books.js"></script>
+    <script src="/scripts/books/create_books.js"></script>
+    <script src="/scripts/books/get_all_books.js"></script>
+    <script src="/scripts/books/update_books.js"></script>
+    <script src="/scripts/books/delete_books.js"></script>
+</body>
+</html>

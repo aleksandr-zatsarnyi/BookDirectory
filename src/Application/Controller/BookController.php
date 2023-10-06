@@ -3,12 +3,14 @@
 namespace App\Application\Controller;
 
 use App\Application\Service\BooksService;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/api/books')]
-class BookController {
+class BookController extends AbstractController {
 
     private BooksService $bookService;
 
@@ -18,23 +20,15 @@ class BookController {
 
     #[Route('/', name: 'books_index', methods: ['GET'])]
     public function index() {
-
+        return $this->render('Books/index.html.twig');
     }
 
-    #[Route('/', name: 'get_all_books', methods: ['GET'])]
-    public function getAll(): JsonResponse {
-        $books = $this->bookService->findAllBooks();
-        $bookData = [];
-        foreach ($books as $book) {
-            $bookData[] = [
-                'id' => $book->getId(),
-                'title' => $book->getTitle(),
-                'description' => $book->getDescription(),
-                'imagePath' => $book->getImagePath()
-            ];
-        }
-        $jsonContent = json_encode($bookData);
-        return new JsonResponse($jsonContent);
+    #[Route('/get', name: 'get_all_books', methods: ['GET'])]
+    public function getAll(PaginatorInterface $paginator, Request $request): JsonResponse {
+        $page = $request->query->getInt('page', 1);
+        $books = $this->bookService->findAllBooks($page, 15);
+
+        return new JsonResponse($books);
     }
 
 
