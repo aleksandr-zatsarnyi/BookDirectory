@@ -26,12 +26,19 @@ class AuthorsRepository extends ServiceEntityRepository {
         return $paginator;
     }
 
-    public function searchAuthors(string $searchTerm): array {
-        return $this->createQueryBuilder('a')
+    public function searchAuthors(string $searchTerm, $page = 1, $perPage = 15): Paginator {
+        $query = $this->createQueryBuilder('a')
             ->where('CONCAT(a.firstName, \' \', a.lastName) LIKE :searchTerm')
             ->setParameter('searchTerm', '%' . $searchTerm . '%')
+            ->getQuery();
+
+        $paginator = new Paginator($query);
+        $paginator
             ->getQuery()
-            ->getResult();
+            ->setFirstResult($perPage * ($page - 1))
+            ->setMaxResults($perPage);
+
+        return $paginator;
     }
 
     public function findAuthorsByIds(array $authorIds) {

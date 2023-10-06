@@ -1,22 +1,21 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const toggleCreateFormButton = document.getElementById('open-create-form');
+document.addEventListener('DOMContentLoaded', function () {
+    const openCreateFormButton = document.getElementById('open-create-form');
     const createAuthorForm = document.getElementById('create-author-form');
+    const closeCreateFormButton = document.getElementById('close-create-form');
+    const form = createAuthorForm.querySelector('form');
 
-    let isCreateFormVisible = false;
-
-    toggleCreateFormButton.addEventListener('click', () => {
-        if (isCreateFormVisible) {
-            createAuthorForm.style.display = 'none';
-        } else {
-            createAuthorForm.style.display = 'block';
-        }
-        isCreateFormVisible = !isCreateFormVisible;
+    openCreateFormButton.addEventListener('click', () => {
+        createAuthorForm.style.display = 'block';
     });
 
-    createAuthorForm.addEventListener('submit', (event) => {
+    closeCreateFormButton.addEventListener('click', () => {
+        createAuthorForm.style.display = 'none';
+    });
+
+    form.addEventListener('submit', (event) => {
         event.preventDefault();
 
-        const formData = new FormData(createAuthorForm);
+        const formData = new FormData(form);
 
         fetch('/api/authors/', {
             method: 'POST',
@@ -35,5 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => {
                 showModal('An error occurred while creating the author.');
             });
+        createAuthorForm.style.display = 'none';
     });
 });
