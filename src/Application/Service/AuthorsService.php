@@ -44,7 +44,7 @@ class AuthorsService {
         return $author;
     }
 
-    public function update(int $id, array $parameters) {
+    public function update(string $id, array $parameters) {
         try {
             $this->authorsRepository->update($id, $parameters);
         } catch (RuntimeException $e) {

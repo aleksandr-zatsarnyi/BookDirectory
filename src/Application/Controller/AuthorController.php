@@ -52,7 +52,7 @@ class AuthorController extends AbstractController {
     }
 
     #[Route('/{id}', name: 'update_author', methods: ['PUT'])]
-    public function update(Request $request, int $id) {
+    public function update(Request $request, string $id) {
         $data = json_decode($request->getContent(), true);
         $this->authorService->update($id, $data);
 

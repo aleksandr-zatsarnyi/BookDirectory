@@ -54,32 +54,32 @@ class AuthorsRepository extends ServiceEntityRepository {
             ->getOneOrNullResult();
     }
 
-    public function update(int $authorId, array $author): void {
+    public function update(string $authorId, array $update): void {
         $author = $this->find($authorId);
 
         if (!$author) {
             throw new RuntimeException('Author not found');
         }
 
-        if (isset($data['firstName'])) {
-            $author->setFirstName($data['firstName']);
+        if (!empty($update['firstName'])) {
+            $author->setFirstName($update['firstName']);
         }
 
-        if (isset($data['secondName'])) {
-            $author->setFirstName($data['firstName']);
+        if (isset($update['secondName'])) {
+            $author->setSecondName($update['secondName']);
         }
 
-        if (isset($data['lastName'])) {
-            $author->setLastName($data['lastName']);
+        if (!empty($update['lastName'])) {
+            $author->setLastName($update['lastName']);
         }
 
-        if (isset($data['books'])) {
-            $books = $data['books'];
+        if (!empty($update['books'])) {
+            $books = $update['books'];
             foreach ($books as $book) {
                 $author->addBook($book);
             }
         }
-
+        $this->_em->persist($author);
         $this->_em->flush();
     }
 

@@ -61,9 +61,27 @@
         <button type="submit" class="btn btn-primary" id="button">Search</button>
     </form>
 
+    <button class="btn" id="open_update-form">Update Author</button>
+    <div id="update-author-form" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close" id="close-update-form">&times;</span>
+                    <h2>Update Author</h2>
+                    <form>
+                        <input type="text" id="id" name="id" placeholder="id">
+                        <input type="text" id="firstName" name="firstName" placeholder="First Name">
+                        <input type="text" id="secondName" name="secondName" placeholder="Second Name">
+                        <input type="text" id="lastName" name="lastName" placeholder="Last Name">
+                        <input type="text" id="books" name="books" placeholder="Books">
+                        <button type="submit" class="btn btn-primary" id="button">Update Author</button>
+                    </form>
+                </div>
+    </div>
+    <button class="btn" id="delete-author-button">Delete Author</button>
+
     <script src="/scripts/modal_info_message.js"></script>
     <script src="/scripts/search_authors.js"></script>
     <script src="/scripts/create_authors.js"></script>
     <script src="/scripts/get_all_author.js"></script>
+    <script src="/scripts/update_author.js"></script>
 </body>
 </html>
