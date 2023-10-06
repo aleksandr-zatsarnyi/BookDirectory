@@ -31,50 +31,22 @@
     <h1>Authors page</h1>
 
     <a href="{{ path('get_all_author') }}" class="btn">Get All Authors</a>
-    <a href="{{ path('create_author') }}" class="btn" id="open-create-form">Create Author</a>
-    <a href="#" class="btn" id="open-search-form">Search Authors</a>
 
-    <form action="{{ path('find_author') }}" method="GET" class="search-form" style="display: none;">
-        <input type="text" name="searchTerm" placeholder="Author Name">
+    <a href="#" class="btn" id="open-create-form">Create Author</a>
+    <form id="create-author-form" style="display: none;">
+        <input type="text" id="firstName" name="firstName" placeholder="First Name">
+        <input type="text" id="secondName" name="secondName" placeholder="Second Name">
+        <input type="text" id="lastName" name="lastName" placeholder="Last Name">
+        <button type="submit" class="btn btn-primary">Create Author</button>
+    </form>
+
+    <a href="#" class="btn" id="open-search-form">Search Authors</a>
+    <form id="search-author-form" style="display: none;">
+        <input type="text" id="searchTerm" name="searchTerm" placeholder="Author Name">
         <button type="submit" class="btn btn-primary" id="search-button">Search</button>
     </form>
 
-    <script>
-        const openSearchFormButton = document.getElementById('open-search-form');
-        const searchForm = document.querySelector('.search-form');
-        const searchButton = document.getElementById('search-button');
-
-        let isSearchFormVisible = false;
-
-        openSearchFormButton.addEventListener('click', () => {
-            if (isSearchFormVisible) {
-                searchForm.style.display = 'none';
-            } else {
-                searchForm.style.display = 'block';
-            }
-            isSearchFormVisible = !isSearchFormVisible;
-        });
-
-        searchButton.addEventListener('submit', (event) => {
-            event.preventDefault();
-
-            const formData = new FormData(searchForm);
-
-            fetch('{{ path('find_author') }}', {
-                method: 'GET',
-                body: formData
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Обработайте результаты поиска и обновите интерфейс по вашему усмотрению.
-                } else {
-                    console.error('Произошла ошибка при поиске автора');
-                }
-            })
-            .catch(error => {
-                console.error('Произошла ошибка при отправке запроса:', error);
-            });
-        });
-    </script>
+    <script src="/scripts/search_authors.js"></script>
+    <script src="/scripts/create_authors.js"></script>
 </body>
 </html>
