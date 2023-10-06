@@ -34,12 +34,13 @@ class AuthorController extends AbstractController {
     }
 
     #[Route('/search', name: 'find_author', methods: ['GET'])]
-    public function search(PaginatorInterface $paginator, Request $request): Response {
+    public function search(Request $request): Response {
         $searchTerm = $request->query->get('searchTerm');
-        $page = $request->query->getInt('page', 1);
-        $response = $this->authorService->searchAuthors($searchTerm, $page, 15);
+        $authors = $this->authorService->searchAuthors($searchTerm);
 
-        return new JsonResponse($response);
+        return $this->render('Authors/search.html.twig', [
+            'authors' => $authors,
+        ]);
     }
 
     #[Route('/', name: 'create_author', methods: ['POST'])]

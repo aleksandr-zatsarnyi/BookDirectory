@@ -27,18 +27,8 @@ class AuthorsService {
         return $data;
     }
 
-    public function searchAuthors(string $searchTerm, int $page, int $perPage): array {
-        $results = $this->authorsRepository->searchAuthors($searchTerm, $page, $perPage);
-        $data = [];
-        foreach ($results as $result) {
-            $data[] = [
-                'id' => $result->getId(),
-                'firstName' => $result->getFirstName(),
-                'secondName' => $result->getSecondName(),
-                'lastName' => $result->getLastName()
-            ];
-        }
-        return $data;
+    public function searchAuthors($searchTerm): array {
+        return $this->authorsRepository->searchAuthors($searchTerm);
     }
 
     public function getAuthorById($authorId) {
