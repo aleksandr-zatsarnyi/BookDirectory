@@ -88,7 +88,11 @@ class AuthorsRepository extends ServiceEntityRepository {
         $this->_em->flush();
     }
 
-    public function delete(Authors $author): void {
+    public function delete(string $id): void {
+        $author = $this->find($id);
+        if (!$author) {
+            throw new RuntimeException('Author not found');
+        }
         $this->_em->remove($author);
         $this->_em->flush();
     }

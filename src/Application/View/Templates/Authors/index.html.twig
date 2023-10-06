@@ -76,12 +76,18 @@
                     </form>
                 </div>
     </div>
-    <button class="btn" id="delete-author-button">Delete Author</button>
+
+    <a href="#" class="btn" id="open-delete-form">Delete Author</a>
+    <form id="delete-author-form" style="display: none;">
+        <input type="text" id="id" name="id" placeholder="Author Id">
+        <button type="submit" class="btn btn-primary" id="button">Delete</button>
+    </form>
 
     <script src="/scripts/modal_info_message.js"></script>
     <script src="/scripts/search_authors.js"></script>
     <script src="/scripts/create_authors.js"></script>
     <script src="/scripts/get_all_author.js"></script>
     <script src="/scripts/update_author.js"></script>
+     <script src="/scripts/delete_author.js"></script>
 </body>
 </html>

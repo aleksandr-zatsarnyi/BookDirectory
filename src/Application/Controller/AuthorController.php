@@ -60,7 +60,7 @@ class AuthorController extends AbstractController {
     }
 
     #[Route('/{id}', name: 'delete_author', methods: ['DELETE'])]
-    public function delete(int $id): JsonResponse {
+    public function delete(string $id): JsonResponse {
         $response =  $this->authorService->delete($id);
 
         return new JsonResponse(['message' => $response], 200);

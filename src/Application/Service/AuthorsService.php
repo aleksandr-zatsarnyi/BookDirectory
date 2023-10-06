@@ -56,14 +56,9 @@ class AuthorsService {
 
     public function delete(string $id): string {
         try {
-            $author = $this->authorsRepository->findById($id);
-            if ($author) {
-                $this->authorsRepository->delete($author);
-            } else {
-                return "Author with $id is not found";
-            }
-        } catch (NonUniqueResultException $e) {
-            return "Not unique $id";
+            $this->authorsRepository->delete($id);
+        } catch (RuntimeException $e) {
+            return $e->getMessage();
         }
         return "Author with $id is deleted";
     }

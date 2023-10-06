@@ -13,7 +13,7 @@
         <field name="imagePath" type="string" length="255" nullable="true" />
         <field name="publicationDate" type="string" length="255"/>
 
-        <many-to-many field="authors" target-entity="App\Application\Domain\Entity\Authors">
+        <many-to-many field="authors" target-entity="App\Application\Domain\Entity\Authors" mapped-by="books">
             <join-table name="book_author">
                 <join-columns>
                     <join-column name="book_id" referenced-column-name="id" />

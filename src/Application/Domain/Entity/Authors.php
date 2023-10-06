@@ -68,4 +68,8 @@ class Authors {
     public function setBooks(Collection $books): void {
         $this->books = $books;
     }
+
+    public function getBooks(): Collection {
+        return $this->books;
+    }
 }
