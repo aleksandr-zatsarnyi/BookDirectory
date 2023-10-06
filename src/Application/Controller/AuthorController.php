@@ -50,4 +50,19 @@ class AuthorController extends AbstractController {
 
         return new JsonResponse(['message' => 'Book created'], 201);
     }
+
+    #[Route('/{id}', name: 'update_author', methods: ['PUT'])]
+    public function update(Request $request, int $id) {
+        $data = json_decode($request->getContent(), true);
+        $this->authorService->update($id, $data);
+
+        return new JsonResponse(['message' => 'Author updated'], 200);
+    }
+
+    #[Route('/{id}', name: 'delete_author', methods: ['DELETE'])]
+    public function delete(int $id): JsonResponse {
+        $response =  $this->authorService->delete($id);
+
+        return new JsonResponse(['message' => $response], 200);
+    }
 }

@@ -52,4 +52,20 @@ class Authors {
     public function postLoad(): void {
         $this->books = new ArrayCollection();
     }
+
+    public function setFirstName(string $firstName): void {
+        $this->firstName = $firstName;
+    }
+
+    public function setSecondName(?string $secondName): void {
+        $this->secondName = $secondName;
+    }
+
+    public function setLastName(string $lastName): void {
+        $this->lastName = $lastName;
+    }
+
+    public function setBooks(Collection $books): void {
+        $this->books = $books;
+    }
 }

@@ -4,7 +4,9 @@ namespace App\Application\Service;
 
 use App\Application\Domain\Entity\Authors;
 use App\Application\Infrastructure\Repository\AuthorsRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use RuntimeException;
 
 class AuthorsService {
     private AuthorsRepository $authorsRepository;
@@ -40,5 +42,29 @@ class AuthorsService {
         $this->authorsRepository->save($author);
 
         return $author;
+    }
+
+    public function update(int $id, array $parameters) {
+        try {
+            $this->authorsRepository->update($id, $parameters);
+        } catch (RuntimeException $e) {
+            return $e->getMessage();
+        }
+        return "Author with $id is updated";
+    }
+
+
+    public function delete(string $id): string {
+        try {
+            $author = $this->authorsRepository->findById($id);
+            if ($author) {
+                $this->authorsRepository->delete($author);
+            } else {
+                return "Author with $id is not found";
+            }
+        } catch (NonUniqueResultException $e) {
+            return "Not unique $id";
+        }
+        return "Author with $id is deleted";
     }
 }

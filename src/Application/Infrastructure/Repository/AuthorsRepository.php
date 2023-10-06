@@ -4,8 +4,10 @@ namespace App\Application\Infrastructure\Repository;
 
 use App\Application\Domain\Entity\Authors;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use RuntimeException;
 
 class AuthorsRepository extends ServiceEntityRepository {
 
@@ -40,6 +42,45 @@ class AuthorsRepository extends ServiceEntityRepository {
             ->setParameter('authorIds', $authorIds)
             ->getQuery()
             ->getResult();
+    }
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findById(string $id) {
+        return $this->createQueryBuilder('a')
+            ->where('a.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function update(int $authorId, array $author): void {
+        $author = $this->find($authorId);
+
+        if (!$author) {
+            throw new RuntimeException('Author not found');
+        }
+
+        if (isset($data['firstName'])) {
+            $author->setFirstName($data['firstName']);
+        }
+
+        if (isset($data['secondName'])) {
+            $author->setFirstName($data['firstName']);
+        }
+
+        if (isset($data['lastName'])) {
+            $author->setLastName($data['lastName']);
+        }
+
+        if (isset($data['books'])) {
+            $books = $data['books'];
+            foreach ($books as $book) {
+                $author->addBook($book);
+            }
+        }
+
+        $this->_em->flush();
     }
 
     public function save(Authors $author): void {
