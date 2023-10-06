@@ -27,13 +27,13 @@ document.addEventListener('DOMContentLoaded', function () {
         })
             .then(response => {
                 if (response.ok) {
-                    showModal('Author updated successfully.');
+                    showModal('Author deleted successfully.');
                 } else {
-                    showModal('An error occurred while updating the author.');
+                    showModal('An error occurred while deleting the author.');
                 }
             })
             .catch(error => {
-                showModal('An error occurred while updating the author.');
+                showModal('An error occurred while deleting the author.');
             });
         deleteForm.style.display = 'none';
     });

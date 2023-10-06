@@ -73,13 +73,6 @@ class AuthorsRepository extends ServiceEntityRepository {
             $author->setLastName($update['lastName']);
         }
 
-        if (!empty($update['books'])) {
-            $books = $update['books'];
-            foreach ($books as $book) {
-                $author->addBook($book);
-            }
-        }
-        $this->_em->persist($author);
         $this->_em->flush();
     }
 
