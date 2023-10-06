@@ -4,6 +4,7 @@ namespace App\Application\Infrastructure\Repository;
 
 use App\Application\Domain\Entity\Authors;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 class AuthorsRepository extends ServiceEntityRepository {
@@ -12,11 +13,17 @@ class AuthorsRepository extends ServiceEntityRepository {
         parent::__construct($registry, Authors::class);
     }
 
-    public function findAllSortedByLastName() {
-        return $this->createQueryBuilder('a')
+    public function findAllSortedByLastName($page = 1, $perPage = 15): Paginator {
+        $query = $this->createQueryBuilder('a')
             ->orderBy('a.lastName', 'ASC')
+            ->getQuery();
+        $paginator = new Paginator($query);
+        $paginator
             ->getQuery()
-            ->getResult();
+            ->setFirstResult($perPage * ($page - 1))
+            ->setMaxResults($perPage);
+
+        return $paginator;
     }
 
     public function searchAuthors(string $searchTerm): array {

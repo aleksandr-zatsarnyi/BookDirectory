@@ -3,6 +3,7 @@
 namespace App\Application\Controller;
 
 use App\Application\Service\AuthorsService;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,12 +26,11 @@ class AuthorController extends AbstractController {
     }
 
     #[Route('/get', name: 'get_all_author', methods: ['GET'])]
-    public function getAll(): Response {
-        $authors = $this->authorService->getAllAuthors();
+    public function getAll(PaginatorInterface $paginator, Request $request): Response {
+        $page = $request->query->getInt('page', 1);
+        $response = $this->authorService->getAllAuthors($page, 15);
 
-        return $this->render('Authors/search.html.twig', [
-            'authors' => $authors,
-        ]);
+        return new JsonResponse($response);
     }
 
     #[Route('/search', name: 'find_author', methods: ['GET'])]

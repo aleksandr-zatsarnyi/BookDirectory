@@ -4,6 +4,7 @@ namespace App\Application\Service;
 
 use App\Application\Domain\Entity\Authors;
 use App\Application\Infrastructure\Repository\AuthorsRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class AuthorsService {
     private AuthorsRepository $authorsRepository;
@@ -12,8 +13,17 @@ class AuthorsService {
         $this->authorsRepository = $authorRepository;
     }
 
-    public function getAllAuthors() {
-        return $this->authorsRepository->findAllSortedByLastName();
+    public function getAllAuthors(int $page, int $perPage): array {
+        $results = $this->authorsRepository->findAllSortedByLastName($page, $perPage);
+        $data = [];
+        foreach ($results as $result) {
+            $data[] = [
+                'firstName' => $result->getFirstName(),
+                'secondName' => $result->getSecondName(),
+                'lastName' => $result->getLastName()
+            ];
+        }
+        return $data;
     }
 
     public function searchAuthors($searchTerm) {
