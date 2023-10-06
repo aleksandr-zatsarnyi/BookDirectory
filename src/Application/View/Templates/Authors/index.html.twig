@@ -2,58 +2,7 @@
 <html>
 <head>
     <title>Authors page</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            margin: 10px;
-        }
-        #button {
-            cursor: pointer;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            position: absolute;
-            background-color: #fff;
-            margin: auto;
-            padding: 20px;
-            width: 50%;
-            text-align: center;
-            border: 1px solid #ccc;
-        }
-
-        .close {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 <body>
     <a href="{{ path('welcome_index') }}" class="btn btn-primary" style="position: absolute; top: 10px; left: 10px;">Return to Index</a>
@@ -65,6 +14,29 @@
             <p id="modal-message">It's done</p>
         </div>
     </div>
+
+<div id="result-table-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-result-table-modal">&times;</span>
+        <h2>Authors List</h2>
+        <table id="author-table">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Second Name</th>
+                    <th>Last Name</th>
+                </tr>
+            </thead>
+            <tbody id="author-table-body">
+            </tbody>
+        </table>
+        <div id="pagination-container">
+            <button id="prev-page">Previous Page</button>
+            <span id="current-page">Page 1</span>
+            <button id="next-page">Next Page</button>
+        </div>
+    </div>
+</div>
 
     <a href="#" class="btn" id="get-all-authors-button">Get All Authors</a>
 
@@ -82,7 +54,7 @@
         <button type="submit" class="btn btn-primary" id="button">Search</button>
     </form>
 
-     <script src="/scripts/modal_info_message.js"></script>
+    <script src="/scripts/modal_info_message.js"></script>
     <script src="/scripts/search_authors.js"></script>
     <script src="/scripts/create_authors.js"></script>
     <script src="/scripts/get_all_author.js"></script>
