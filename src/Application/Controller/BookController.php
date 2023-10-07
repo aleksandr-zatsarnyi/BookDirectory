@@ -5,6 +5,7 @@ namespace App\Application\Controller;
 use App\Application\Service\BooksService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,8 +55,29 @@ class BookController extends AbstractController {
 
     #[Route('/', name: 'create_book', methods: ['POST'])]
     public function create(Request $request): JsonResponse {
-        $data = json_decode($request->getContent(), true);
+        $image = $request->files->get('image');
 
+        if ($image instanceof UploadedFile) {
+            $newFilename = uniqid().'.'.$image->guessExtension();
+            try {
+                $image->move(
+                    $this->getParameter('upload_directory'),
+                    $newFilename
+                );
+                $imagePath = $this->getParameter('upload_directory').'/'.$newFilename;
+            } catch (\Exception $e){
+                return new JsonResponse(['message' => 'Can not load image'], 400);
+            }
+        } else {
+            $imagePath = null;
+        }
+
+        $data = [
+            'title' => $request->request->get('title'),
+            'description' => $request->request->get('description'),
+            'publicationDate' => $request->request->get('publicationDate'),
+            'imagePath' => $imagePath
+        ];
         $this->bookService->create($data);
 
         return new JsonResponse(['message' => 'Book created'], 201);

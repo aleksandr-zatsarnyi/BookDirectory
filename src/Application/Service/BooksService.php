@@ -7,6 +7,8 @@ use App\Application\Domain\Entity\Books;
 use App\Application\Infrastructure\Repository\BooksRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\NonUniqueResultException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
 
 class BooksService {
     private BooksRepository $booksRepository;
@@ -48,8 +50,8 @@ class BooksService {
 
     public function create(array $parameters): void {
         $book = new Books($parameters['title'], $parameters['description'], $parameters['imagePath'], $parameters['publicationDate']);
-        $author = $this->getAuthor($parameters['authors']);
-        $book->addAuthor($author);
+        //$author = $this->getAuthor($parameters['authors']);
+        //$book->addAuthor($author);
         $this->booksRepository->save($book);
     }
 

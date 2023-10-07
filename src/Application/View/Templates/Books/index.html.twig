@@ -48,18 +48,18 @@
         <div class="modal-content">
             <span class="close" id="close-create-form">&times;</span>
             <h2>Create Book</h2>
-            <form enctype="multipart/form-data" action="process-create-book.php" method="post">
-                <!-- Поле для загрузки изображения -->
-                <input type="file" id="image" name="image" accept="image/*">
+            <form id="bookForm" enctype="multipart/form-data">
+                <input type="file" id="image" name="image">
                 <br>
 
                 <input type="text" id="title" name="title" placeholder="Title">
                 <textarea id="description" name="description" placeholder="Description"></textarea>
-                <input type="text" id="publicationDate" name="publicationDate" placeholder="Publication Date">
+                <input type="text" id="publicationDate" name="publicationDate" placeholder="yyyy-mm-dd" pattern="\d{4}-\d{2}-\d{2}" title="Введіть дату у форматі yyyy-mm-dd">
                 <br>
 
                 <button type="submit" class="btn btn-primary" id="button">Create Book</button>
             </form>
+            <div id="message"></div>
         </div>
     </div>
 
@@ -91,6 +91,7 @@
         <button type="submit" class="btn btn-primary" id="button">Delete</button>
     </form>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/scripts/modal_info_message.js"></script>
     <script src="/scripts/books/search_books.js"></script>
     <script src="/scripts/books/create_book.js"></script>
