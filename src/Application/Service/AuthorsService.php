@@ -33,7 +33,7 @@ class AuthorsService {
         return $this->authorsRepository->searchAuthors($searchTerm);
     }
 
-    public function getAuthorById($authorId) {
+    public function getAuthorById($authorId): ?object {
         return $this->authorsRepository->find($authorId);
     }
 

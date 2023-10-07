@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use RuntimeException;
 
 class BooksRepository extends ServiceEntityRepository {
 
@@ -69,6 +70,11 @@ class BooksRepository extends ServiceEntityRepository {
 
     public function delete(Books $book): void {
         $this->_em->remove($book);
+        $this->_em->flush();
+    }
+
+    public function update(Books $book): void {
+        $this->_em->persist($book);
         $this->_em->flush();
     }
 }

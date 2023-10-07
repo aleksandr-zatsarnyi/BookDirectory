@@ -25,9 +25,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 'Content-Type': 'application/json',
             }
         })
-            .then(response => {
-                if (response.ok) {
-                    showModal('Author updated successfully.');
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    showModal(data.message);
                 } else {
                     showModal('An error occurred while updating the author.');
                 }

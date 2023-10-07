@@ -39,7 +39,7 @@
                     <button id="next-page">Next Page</button>
                 </div>
             </div>
-        </div>
+    </div>
 
     <a href="#" class="btn" id="get-all-books-button">Get All Books</a>
 
@@ -55,6 +55,7 @@
                 <input type="text" id="title" name="title" placeholder="Title">
                 <textarea id="description" name="description" placeholder="Description"></textarea>
                 <input type="text" id="publicationDate" name="publicationDate" placeholder="yyyy-mm-dd" pattern="\d{4}-\d{2}-\d{2}" title="Введіть дату у форматі yyyy-mm-dd">
+                <select id="create_authors" name="authors[]" multiple></select>
                 <br>
 
                 <button type="submit" class="btn btn-primary" id="button">Create Book</button>
@@ -66,30 +67,38 @@
 
     <a href="#" class="btn" id="open-search-form">Search Books</a>
     <form id="search-book-form" style="display: none;">
-        <input type="text" id="searchTerm" name="searchTerm" placeholder="Book title">
+        <input type="text" id="searchTerm" name="searchTerm" placeholder="Book title or authors name">
         <button type="submit" class="btn btn-primary" id="button">Search</button>
     </form>
 
-    <button class="btn" id="open_update-form">Update Book</button>
-    <div id="update-book-form" class="modal" style="display: none;">
-                <div class="modal-content">
-                    <span class="close" id="close-update-form">&times;</span>
-                    <h2>Update Book</h2>
-                    <form>
-                        <input type="text" id="id" name="id" placeholder="id">
-                        <input type="text" id="firstName" name="firstName" placeholder="First Name">
-                        <input type="text" id="secondName" name="secondName" placeholder="Second Name">
-                        <input type="text" id="lastName" name="lastName" placeholder="Last Name">
-                        <button type="submit" class="btn btn-primary" id="button">Update Book</button>
-                    </form>
-                </div>
-    </div>
+     <a href="#" class="btn" id="open-update-form">Update Book</a>
+        <div id="update-book-form" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" id="close-update-form">&times;</span>
+                <h2>Update Book</h2>
+                <form id="updateBookForm" enctype="multipart/form-data">
+                    <input type="file" id="image" name="image">
+                    <br>
 
-    <a href="#" class="btn" id="open-delete-form">Delete Book</a>
-    <form id="delete-book-form" style="display: none;">
-        <input type="text" id="id" name="id" placeholder="book Id">
-        <button type="submit" class="btn btn-primary" id="button">Delete</button>
-    </form>
+                    <input type="text" id="id" name="id" placeholder="id">
+                    <input type="text" id="title" name="title" placeholder="Title">
+                    <textarea id="description" name="description" placeholder="Description"></textarea>
+                    <input type="text" id="publicationDate" name="publicationDate" placeholder="yyyy-mm-dd" pattern="\d{4}-\d{2}-\d{2}" title="Введіть дату у форматі yyyy-mm-dd">
+                    <select id="update_authors" name="authors[]" multiple></select>
+                    <br>
+
+                    <button type="submit" class="btn btn-primary" id="button">Update Book</button>
+                </form>
+                <div id="message"></div>
+            </div>
+        </div>
+
+         <a href="#" class="btn" id="open-delete-form">Delete Book</a>
+            <form id="delete-book-form" style="display: none;">
+                <input type="text" id="id" name="id" placeholder="book Id">
+                <button type="submit" class="btn btn-primary" id="button">Delete</button>
+            </form>
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/scripts/modal_info_message.js"></script>

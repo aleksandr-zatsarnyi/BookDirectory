@@ -2,6 +2,7 @@
 
 namespace App\Application\Controller;
 
+use App\Application\Domain\Dto\ActorDTO;
 use App\Application\Service\AuthorsService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,7 +37,11 @@ class AuthorController extends AbstractController {
     #[Route('/search', name: 'find_author', methods: ['GET'])]
     public function search(Request $request): Response {
         $searchTerm = $request->query->get('searchTerm');
-        $authors = $this->authorService->searchAuthors($searchTerm);
+        if (empty(trim($searchTerm))) {
+            $authors = [];
+        } else {
+            $authors = $this->authorService->searchAuthors($searchTerm);
+        }
 
         return $this->render('Authors/search.html.twig', [
             'authors' => $authors,
@@ -44,19 +49,22 @@ class AuthorController extends AbstractController {
     }
 
     #[Route('/', name: 'create_author', methods: ['POST'])]
-    public function create(Request $request) {
+    public function create(Request $request): JsonResponse {
         $data = json_decode($request->getContent(), true);
+        if (!$this->validateParam($data)) {
+            return new JsonResponse(['message' => 'name and lastname should be exist'], 400);
+        }
         $this->authorService->create($data);
 
         return new JsonResponse(['message' => 'Book created'], 201);
     }
 
     #[Route('/{id}', name: 'update_author', methods: ['PUT'])]
-    public function update(Request $request, string $id) {
+    public function update(Request $request, string $id): JsonResponse {
         $data = json_decode($request->getContent(), true);
-        $this->authorService->update($id, $data);
+        $response = $this->authorService->update($id, $data);
 
-        return new JsonResponse(['message' => 'Author updated'], 200);
+        return new JsonResponse(['message' => $response], 200);
     }
 
     #[Route('/{id}', name: 'delete_author', methods: ['DELETE'])]
@@ -64,5 +72,15 @@ class AuthorController extends AbstractController {
         $response =  $this->authorService->delete($id);
 
         return new JsonResponse(['message' => $response], 200);
+    }
+
+    private function validateParam(array $data): bool {
+        if (empty($data['firstName'])) {
+           return false;
+        }
+        if (empty($data['lastName']) && strlen($data['lastName']) < 3) {
+            return false;
+        }
+        return true;
     }
 }

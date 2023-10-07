@@ -1,12 +1,12 @@
 $(document).ready(function () {
-    $('#open-create-form').click(function () {
-        $('#create-book-form').show();
+    $('#open-update-form').click(function () {
+        $('#update-book-form').show();
         $.ajax({
             url: '/api/authors/get',
             method: 'GET',
             dataType: 'json',
             success: function (data) {
-                var authorSelect = $('#create_authors');
+                var authorSelect = $('#update_authors');
 
                 authorSelect.empty();
 
@@ -21,54 +21,39 @@ $(document).ready(function () {
                 });
             },
             error: function (xhr) {
-                console.error('Error while retrieving the list of authors:', xhr);
+                console.error('Ошибка при получении списка авторов:', xhr);
             }
         });
     });
 
-    $('#close-create-form').click(function () {
-        $('#create-book-form').hide();
+    $('#close-update-form').click(function () {
+        $('#update-book-form').hide();
     });
 
-    $('#bookForm').submit(function (e) {
+    $('#updateBookForm').submit(function (e) {
         e.preventDefault();
         var formData = new FormData(this);
-        var selectedAuthors = $('#create_authors').val();
+        const bookId = formData.get('id');
+
+        var selectedAuthors = $('#update_authors').val();
         if (selectedAuthors) {
             var authorsJSON = JSON.stringify(selectedAuthors);
             formData.append('authors', authorsJSON);
         }
 
-        var imageInput = $('#image')[0];
-        var maxFileSize = 2 * 1024 * 1024; // 2 МБ
-
-        if (imageInput.files.length > 0) {
-            var imageFile = imageInput.files[0];
-
-            if (imageFile.size > maxFileSize) {
-                alert('Image size exceeds 2 MB. Please select a file smaller than 2 MB.');
-                return;
-            }
-
-            var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-            if (!allowedExtensions.exec(imageFile.name)) {
-                alert('Please select a .jpg or .png image file for upload.');
-                return;
-            }
-        }
         $.ajax({
             type: 'POST',
-            url: '/api/books/',
+            url: '/api/books/update/' + bookId,
             data: formData,
             processData: false,
             contentType: false,
             success: function (data) {
-                showModal('Book created successfully.');
+                showModal('Book updated successfully.');
             },
             error: function (xhr) {
                 showModal('An error occurred while creating the book.');
             }
         });
-        $('#create-book-form').hide();
+        $('#update-book-form').hide();
     });
 });

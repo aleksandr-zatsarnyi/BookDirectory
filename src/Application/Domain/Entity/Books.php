@@ -58,10 +58,38 @@ class Books {
         return $this->publicationDate;
     }
 
+    public function setId(string $id): void {
+        $this->id = $id;
+    }
+
+    public function setTitle(string $title): void {
+        $this->title = $title;
+    }
+
+    public function setDescription(?string $description): void {
+        $this->description = $description;
+    }
+
+    public function setImagePath(?string $imagePath): void {
+        $this->imagePath = $imagePath;
+    }
+
+    public function setAuthors(Collection $authors): void {
+        $this->authors = $authors;
+    }
+
+    public function setPublicationDate(string $publicationDate): void {
+        $this->publicationDate = $publicationDate;
+    }
+
     public function addAuthor(Authors $author): void {
         if (!$this->authors->contains($author)) {
             $this->authors[] = $author;
             $author->addBook($this);
         }
+    }
+
+    public function clearAuthors(): void {
+        $this->authors->clear();
     }
 }

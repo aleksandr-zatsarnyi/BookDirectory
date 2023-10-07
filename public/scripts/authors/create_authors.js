@@ -24,12 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 'Content-Type': 'application/json',
             }
         })
-            .then(response => {
-                if (response.ok) {
-                    showModal('Author created successfully.');
-                } else {
-                    showModal('An error occurred while creating the author.');
-                }
+            .then(response => response.json())
+            .then(data => {
+                showModal(data.message);
             })
             .catch(error => {
                 showModal('An error occurred while creating the author.');

@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/api/books')]
@@ -33,51 +34,35 @@ class BookController extends AbstractController {
     }
 
 
-    #[Route('/{term}', name: 'search_book', methods: ['GET'])]
-    public function findBooksByTitle(string $term): JsonResponse {
-        $books = $this->bookService->findAllFiltered($term);
-        if ($books) {
-            $bookData = [];
-            foreach ($books as $book) {
-                $bookData[] = [
-                    'id' => $book->getId(),
-                    'title' => $book->getTitle(),
-                    'description' => $book->getDescription(),
-                    'imagePath' => $book->getImagePath()
-                ];
-            }
-            $jsonContent = json_encode($bookData);
-            return new JsonResponse($jsonContent);
+    #[Route('/search', name: 'search_book', methods: ['GET'])]
+    public function search(Request $request): Response {
+        $searchTerm = $request->query->get('searchTerm');
+        if (empty(trim($searchTerm))) {
+            $books = [];
         } else {
-            return new JsonResponse(['error' => 'Book not found'], 404);
+            $books = $this->bookService->findAllFiltered($searchTerm);
         }
+
+        return $this->render('Books/search.html.twig', [
+            'books' => $books,
+        ]);
     }
 
     #[Route('/', name: 'create_book', methods: ['POST'])]
     public function create(Request $request): JsonResponse {
         $image = $request->files->get('image');
-
-        if ($image instanceof UploadedFile) {
-            $newFilename = uniqid().'.'.$image->guessExtension();
-            try {
-                $image->move(
-                    $this->getParameter('upload_directory'),
-                    $newFilename
-                );
-                $imagePath = $this->getParameter('upload_directory').'/'.$newFilename;
-            } catch (\Exception $e){
-                return new JsonResponse(['message' => 'Can not load image'], 400);
-            }
-        } else {
-            $imagePath = null;
-        }
-
+        $imagePath = $this->bookService->uploadImage($image, $this->getParameter('upload_directory'));
         $data = [
             'title' => $request->request->get('title'),
             'description' => $request->request->get('description'),
             'publicationDate' => $request->request->get('publicationDate'),
-            'imagePath' => $imagePath
+            'imagePath' => $imagePath,
+            'authors' => json_decode($request->request->get('authors'))
         ];
+        if (!$this->validateParam($data)) {
+            return new JsonResponse(['message' => 'Authors and Title should be exist'], 400);
+        }
+
         $this->bookService->create($data);
 
         return new JsonResponse(['message' => 'Book created'], 201);
@@ -87,5 +72,35 @@ class BookController extends AbstractController {
     public function delete(string $id): JsonResponse {
         $response = $this->bookService->delete($id);
         return new JsonResponse(['message' => $response], 201);
+    }
+
+
+    #[Route('/update/{id}', name: 'update_book', methods: ['POST'])]
+    public function update(string $id, Request $request): JsonResponse {
+        $image = $request->files->get('image');
+        $imagePath = $this->bookService->uploadImage($image, $this->getParameter('upload_directory'));
+
+        $data = [
+            'title' => $request->request->get('title'),
+            'description' => $request->request->get('description'),
+            'publicationDate' => $request->request->get('publicationDate'),
+            'imagePath' => $imagePath,
+            'authors' => json_decode($request->request->get('authors'))
+        ];
+
+        $this->bookService->update($id, $data);
+
+        return new JsonResponse(['message' => 'Book updated'], 200);
+    }
+
+    private function validateParam(array $data): bool {
+        if (empty($data['title'])) {
+            return false;
+        }
+        if (!is_array($data['authors']) && $data['authors']->isEmpty()) {
+            return false;
+        }
+
+        return true;
     }
 }
