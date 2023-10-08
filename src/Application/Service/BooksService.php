@@ -88,8 +88,8 @@ class BooksService {
         }
 
         if (!empty($update['authors'])) {
+            $book->clearAuthors();
             foreach ($update['authors'] as $authorId) {
-                $book->clearAuthors();
                 $author = $this->getAuthor($authorId);
                 if ($author instanceof Authors) {
                     $book->addAuthor($author);
