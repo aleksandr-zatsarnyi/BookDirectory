@@ -25,7 +25,7 @@ $(document).ready(function () {
                     newRow.append($('<td>').text(book.title));
                     newRow.append($('<td>').text(book.description));
                     newRow.append($('<td>').text(book.imagePath));
-                    newRow.append($('<td>').text(book.publication_date));
+                    newRow.append($('<td>').text(book.publicationDate));
                     newRow.append($('<td>').text(authors));
                     $('#book-table-body').append(newRow);
                 });

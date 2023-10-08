@@ -41,6 +41,24 @@ $(document).ready(function () {
             formData.append('authors', authorsJSON);
         }
 
+        var imageInput = $('#update_image')[0];
+        var maxFileSize = 2 * 1024 * 1024;
+
+        if (imageInput.files.length > 0) {
+            var imageFile = imageInput.files[0];
+
+            if (imageFile.size > maxFileSize) {
+                alert('Image size exceeds 2 MB. Please select a file smaller than 2 MB.');
+                return;
+            }
+
+            var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+            if (!allowedExtensions.exec(imageFile.name)) {
+                alert('Please select a .jpg or .png image file for upload.');
+                return;
+            }
+        }
+
         $.ajax({
             type: 'POST',
             url: '/api/books/update/' + bookId,

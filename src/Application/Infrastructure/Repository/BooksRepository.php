@@ -54,7 +54,7 @@ class BooksRepository extends ServiceEntityRepository {
             ->orderBy('b.title', 'ASC');
 
         $qb->leftJoin('b.authors', 'a')
-            ->where('b.title LIKE :term OR a.lastName LIKE :term')
+            ->where('b.title LIKE :term OR a.firstName LIKE :term OR a.lastName LIKE :term OR CONCAT(a.firstName, \' \', a.lastName) LIKE :term')
             ->setParameter('term', '%' . $term . '%');
 
 

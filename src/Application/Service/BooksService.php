@@ -75,15 +75,15 @@ class BooksService {
             $book->setTitle($update['title']);
         }
 
-        if (isset($update['description'])) {
+        if (!empty($update['description'])) {
             $book->setDescription($update['description']);
         }
 
-        if (isset($update['publicationDate'])) {
+        if (!empty($update['publicationDate'])) {
             $book->setPublicationDate($update['publicationDate']);
         }
 
-        if (isset($update['imagePath'])) {
+        if (!empty($update['imagePath'])) {
             $book->setImagePath($update['imagePath']);
         }
 

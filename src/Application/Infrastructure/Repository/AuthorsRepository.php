@@ -65,7 +65,7 @@ class AuthorsRepository extends ServiceEntityRepository {
             $author->setFirstName($update['firstName']);
         }
 
-        if (isset($update['secondName'])) {
+        if (!empty($update['secondName'])) {
             $author->setSecondName($update['secondName']);
         }
 

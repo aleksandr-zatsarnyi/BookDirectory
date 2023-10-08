@@ -51,12 +51,14 @@ class BookController extends AbstractController {
     #[Route('/', name: 'create_book', methods: ['POST'])]
     public function create(Request $request): JsonResponse {
         $image = $request->files->get('image');
-        $imagePath = $this->bookService->uploadImage($image, $this->getParameter('upload_directory'));
+        if ($image) {
+            $imagePath = $this->bookService->uploadImage($image, $this->getParameter('upload_directory'));
+        }
         $data = [
             'title' => $request->request->get('title'),
             'description' => $request->request->get('description'),
             'publicationDate' => $request->request->get('publicationDate'),
-            'imagePath' => $imagePath,
+            'imagePath' => $imagePath ?? '',
             'authors' => json_decode($request->request->get('authors'))
         ];
         if (!$this->validateParam($data)) {
@@ -78,13 +80,14 @@ class BookController extends AbstractController {
     #[Route('/update/{id}', name: 'update_book', methods: ['POST'])]
     public function update(string $id, Request $request): JsonResponse {
         $image = $request->files->get('image');
-        $imagePath = $this->bookService->uploadImage($image, $this->getParameter('upload_directory'));
-
+        if ($image) {
+            $imagePath = $this->bookService->uploadImage($image, $this->getParameter('upload_directory'));
+        }
         $data = [
             'title' => $request->request->get('title'),
             'description' => $request->request->get('description'),
             'publicationDate' => $request->request->get('publicationDate'),
-            'imagePath' => $imagePath,
+            'imagePath' => $imagePath ?? '',
             'authors' => json_decode($request->request->get('authors'))
         ];
 
