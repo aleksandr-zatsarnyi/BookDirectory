@@ -7,7 +7,7 @@ The project uses docker install: (https://docs.docker.com/desktop/install/linux-
 
 1. Install docker
 2. Open docker directory on the terminal at the root of the project
-3. Run the command - 'docker-compose up -d'.
+3. Run the command - 'docker-compose up -d'. (don't foget copy .env from .env.dist)
 4. run 'composer install' inside the docker container php-fpm
 5. run 'php bin/console doctrine:migration:migrate' inside the docker container php-fpm to install Database tables 
 6. get this url http://localhost/welcome to your browser
